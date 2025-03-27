@@ -21,8 +21,8 @@
   <div id="score"></div>
 
   <script>
-     const questions = [
- {"question": "____ _____ believes that moral law is given by the law maker. Christ Itself", "answer": "Christian Ethics"},
+  const questions = [
+    {"question": "____ _____ believes that moral law is given by the law maker. Christ Itself", "answer": "Christian Ethics"},
     {"question": "The origin of christianity is ____", "answer": "Christian Ethics"},
     {"question": "The ethics of Jesus Christ shows more preference to whom?", "answer": "The poor and the oppressed"},
     {"question": "The ethics of Jesus is the ethics of ____", "answer": "Love"},
@@ -41,8 +41,9 @@
     {"question": "Ethics of Jesus in terms of the poor", "answer": "Explotation"},
 
 ];
-    const quizForm = document.getElementById('quizForm');
 
+    const quizForm = document.getElementById('quizForm');
+ 
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -58,8 +59,10 @@
         questionDiv.className = 'question';
         questionDiv.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
 
-        // Create an input field for each answer part.
-        const answers = q.answer.split(',').map(answer => answer.trim());
+        // Check if the answer has multiple parts separated by commas
+        const answers = q.answer.includes(',') ? q.answer.split(',').map(answer => answer.trim()) : [q.answer];
+
+        // Render appropriate number of textboxes
         answers.forEach((_, ansIndex) => {
           questionDiv.innerHTML += `
             <input type="text" name="question${index}answer${ansIndex}" class="answerInput" autocomplete="off" required>
@@ -76,7 +79,7 @@
       const correctAnswers = document.querySelectorAll('.correctAnswer');
 
       questions.forEach((q, index) => {
-        const answers = q.answer.split(',').map(answer => answer.trim());
+        const answers = q.answer.includes(',') ? q.answer.split(',').map(answer => answer.trim()) : [q.answer];
         const userAnswers = answers.map((_, ansIndex) => {
           const input = document.querySelector(`input[name="question${index}answer${ansIndex}"]`);
           return input ? input.value.trim().toLowerCase() : "";
@@ -87,7 +90,6 @@
           correctAnswers[index].style.display = 'none';
         } else {
           const isCorrect = userAnswers.every((userAnswer, i) => {
-            // For slash-separated alternatives, split the expected answer further.
             const correctPart = answers[i].toLowerCase();
             const alternatives = correctPart.split('/').map(alt => alt.trim());
             return alternatives.includes(userAnswer);
