@@ -1,15 +1,32 @@
-x<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Viewport meta tag for proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Prevent caching -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
   <title>Ethics & Philosophy Quiz</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .answerInput {
+      margin-top: 5px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .correctAnswer {
+      color: red;
+      font-style: italic;
+    }
+    #score {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>Ethics & Philosophy Quiz</h1>
@@ -21,30 +38,30 @@ x<!DOCTYPE html>
   <div id="score"></div>
 
   <script>
-const questions = [
-    {"question": "____ _____ believes that moral law is given by the law maker. Christ Itself", "answer": "Christian Ethics"},
-    {"question": "The origin of christianity is ____", "answer": "Christian Ethics"},
-    {"question": "There is only one god and it is the one that died on the cross by _____", "answer": "Friedrich Nietzsche"},
-    {"question": "What is ethics of love 1?", "answer": "when you care to your fellowmen, that is love."},
-    {"question": "Which is better", "answer": "to be a peacemaker, to be a peacekeeper"},
-    {"question": "The ethics of christ demands", "answer": "we love our neighbors, you cant love god unless you love your neighbor"},
-    {"question": "The ethics of jesus demands", "answer": "If you want to follow me you need to carry your cross and sacrifice"},
-    {"question": "What is ethics of love 2?", "answer": "love one another as I love you."},
-    {"question": "Manifest Preferential option to the poor and oppressed", "answer": "Persecuted"},
-    {"question": "Types of poor", "answer": "Abandon, Spirituality, Financially, Physically"},
-    {"question": "Ethics of Jesus in terms of the poor", "answer": "Exploitation"},
-    {"question": "6 classification of christ ethics", "answer": [
-        "1. The ethics of Jesus Christ shows more preference to the poor and the oppressed",
-        "2. The ethics of Jesus is the ethics of love",
-        "3. The ethics of Jesus demands honesty and authenticity",
-        "4. The ethics of Jesus is an ethics which teaches faith in the Father",
-        "5. The ethics is an ethics that espouses peace and reconciliation",
-        "6. The ethics of Jesus demands sacrifice and suffering"
-    ]}
-];
+    const questions = [
+        {"question": "What is Christian Ethics?", "answer": "Christian Ethics"},
+        {"question": "The origin of Christianity is ____", "answer": "Christianity"},
+        {"question": "There is only one God who died on the cross for humanity. Who is this?", "answer": "Jesus Christ"},
+        {"question": "What is the first ethics of love?", "answer": "When you care for your fellowmen, that is love."},
+        {"question": "What is better: to be a peacemaker or to be a peacekeeper?", "answer": "To be a peacemaker"},
+        {"question": "The ethics of Christ demands ____", "answer": "We love our neighbors. You can't love God unless you love your neighbor."},
+        {"question": "The ethics of Jesus demands sacrifice. Complete the phrase: 'If you want to follow me, you need to ____'", "answer": "Carry your cross and sacrifice"},
+        {"question": "What is the second ethics of love?", "answer": "Love one another as I love you."},
+        {"question": "Manifest preferential option to the poor and oppressed. Who does this refer to?", "answer": "The persecuted"},
+        {"question": "What are the types of poor?", "answer": "Abandoned, Spirituality, Financially, Physically"},
+        {"question": "What is the ethics of Jesus in terms of the poor?", "answer": "Exploitation"},
+        {"question": "List the six classifications of Christ's ethics.", "answer": [
+            "The ethics of Jesus Christ shows more preference to the poor and the oppressed",
+            "The ethics of Jesus is the ethics of love",
+            "The ethics of Jesus demands honesty and authenticity",
+            "The ethics of Jesus teaches faith in the Father",
+            "The ethics of Jesus espouses peace and reconciliation",
+            "The ethics of Jesus demands sacrifice and suffering"
+        ]}
+    ];
 
     const quizForm = document.getElementById('quizForm');
- 
+
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -53,24 +70,22 @@ const questions = [
     }
 
     function renderQuiz() {
-      shuffleArray(questions); // Shuffle the questions array
+      shuffleArray(questions);
 
       questions.forEach((q, index) => {
         const questionDiv = document.createElement('div');
         questionDiv.className = 'question';
         questionDiv.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
 
-        // Check if the answer has multiple parts separated by commas
-        const answers = q.answer.includes(',') ? q.answer.split(',').map(answer => answer.trim()) : [q.answer];
+        const answers = Array.isArray(q.answer) ? q.answer : [q.answer];
 
-        // Render appropriate number of textboxes
         answers.forEach((_, ansIndex) => {
           questionDiv.innerHTML += `
-            <input type="text" name="question${index}answer${ansIndex}" class="answerInput" autocomplete="off" required>
+            <input type="text" name="question${index}answer${ansIndex}" class="answerInput" aria-label="Answer for question ${index + 1}" autocomplete="off" required>
           `;
         });
 
-        questionDiv.innerHTML += `<p class="correctAnswer" style="display: none;">Correct answer: ${q.answer}</p>`;
+        questionDiv.innerHTML += `<p class="correctAnswer" style="display: none;">Correct answer: ${answers.join(', ')}</p>`;
         quizForm.appendChild(questionDiv);
       });
     }
@@ -80,21 +95,14 @@ const questions = [
       const correctAnswers = document.querySelectorAll('.correctAnswer');
 
       questions.forEach((q, index) => {
-        const answers = q.answer.includes(',') ? q.answer.split(',').map(answer => answer.trim()) : [q.answer];
+        const answers = Array.isArray(q.answer) ? q.answer.map(a => a.toLowerCase()) : [q.answer.toLowerCase()];
         const userAnswers = answers.map((_, ansIndex) => {
           const input = document.querySelector(`input[name="question${index}answer${ansIndex}"]`);
           return input ? input.value.trim().toLowerCase() : "";
         });
 
-        // Only check answers if every input has a value.
-        if (userAnswers.some(answer => answer === "")) {
-          correctAnswers[index].style.display = 'none';
-        } else {
-          const isCorrect = userAnswers.every((userAnswer, i) => {
-            const correctPart = answers[i].toLowerCase();
-            const alternatives = correctPart.split('/').map(alt => alt.trim());
-            return alternatives.includes(userAnswer);
-          });
+        if (userAnswers.every(answer => answer !== "")) {
+          const isCorrect = userAnswers.every((userAnswer, i) => answers[i] === userAnswer);
           if (isCorrect) {
             score++;
             correctAnswers[index].style.display = 'none';
@@ -108,14 +116,11 @@ const questions = [
     }
 
     function resetQuiz() {
-      const answerInputs = document.querySelectorAll('.answerInput');
-      const correctAnswers = document.querySelectorAll('.correctAnswer');
-      answerInputs.forEach(input => input.value = '');
-      correctAnswers.forEach(answer => answer.style.display = 'none');
+      quizForm.innerHTML = '';
       document.getElementById('score').innerText = '';
+      renderQuiz();
     }
 
-    // Initialize the quiz
     renderQuiz();
   </script>
 </body>
