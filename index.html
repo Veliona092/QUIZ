@@ -19,17 +19,23 @@
       margin-bottom: 10px;
     }
     .correctAnswer {
-      color: red;
+      color: green;
       font-style: italic;
+      margin-top: 5px;
     }
     #score {
       font-weight: bold;
       margin-top: 20px;
     }
+    #message {
+      color: blue;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h1>Ethics & Philosophy Quiz</h1>
+  <p id="message">Answer the questions below and click "Submit" to see your score.</p>
   <form id="quizForm" onsubmit="return false;" autocomplete="off">
     <!-- Questions will be inserted here by JavaScript -->
   </form>
@@ -38,50 +44,77 @@
   <div id="score"></div>
 
   <script>
-  const questions = [
-        {"question": "The origin of Christianity is ____", "answer": "Christian Ethics"},
-        {"question": "There is only one God who died on the cross for humanity. Who is the author of this?", "answer": "Friedrich Nietzsche"},
-        {"question": "What is the first ethics of love?", "answer": "When you care for your fellowmen, that is love."},
-        {"question": "What is better: to be a peacemaker or to be a peacekeeper?", "answer": "To be a peacemaker"},
-        {"question": "The ethics of Christ demands ____", "answer": "We love our neighbors. You can't love God unless you love your neighbor."},
-        {"question": "The ethics of Jesus demands sacrifice. Complete the phrase: 'If you want to follow me, you need to ____'", "answer": "Carry your cross and sacrifice"},
-        {"question": "What is the second ethics of love?", "answer": "Love one another as I love you."},
-        {"question": "Manifest preferential option to the poor and oppressed. Who does this refer to?", "answer": "The persecuted"},
-        {"question": "What are the types of poor? 1", "answer": "Abandoned, Spirituality, Financially, Physically"},
-        {"question": "What is the ethics of Jesus in terms of the poor?", "answer": "Exploitation"},
-        {"question": "List the six classifications of Christ's ethics.", "answer": [
-            "The ethics of Jesus Christ shows more preference to the poor and the oppressed",
-            "The ethics of Jesus is the ethics of love",
-            "The ethics of Jesus demands honesty and authenticity",
-            "The ethics of Jesus teaches faith in the Father",
-            "The ethics of Jesus espouses peace and reconciliation",
-            "The ethics of Jesus demands sacrifice and suffering",
-            
+   const questions = [
+     {"question": "The origin of Christianity is ____", "answer": "Christianity"},
 
-        ]},
-        {"question": "______ Believed that the moral law was made by Christ himself", "answer": "Christian Ethics"},
-        {"question": "What are the types of poor? 2", "answer": "disability, underprivileged, abandoned, disadadvantage"},
-        {"question": "Intellectual came about _____ and _______", "answer": "Experience, Time"},
-        {"question": "Moral Virtues came about _____ and _______", "answer": "Source of habit, Result"},
-        {"question": "To be what", "answer": "To be authentic is to be true"}
+    {"question": "There is only one God who died on the cross for humanity. Who is the author of this?", "answer": "Friedrich Nietzsche"},
+    {"question": "What is the first ethics of love?", "answer": "When you care for your fellowmen, that is love."},
+    {"question": "What is better: to be a peacemaker or to be a peacekeeper?", "answer": "To be a peacemaker"},
+    {"question": "The ethics of Christ demands ____", "answer": "We love our neighbors. You can't love God unless you love your neighbor."},
+    {"question": "The ethics of Jesus demands sacrifice. Complete the phrase: 'If you want to follow me, you need to ____'", "answer": "Carry your cross and sacrifice"},
+    {"question": "What is the second ethics of love?", "answer": "Love one another as I love you."},
+    {"question": "Manifest preferential option to the poor and oppressed. Who does this refer to?", "answer": "The persecuted"},
+    {"question": "What are the types of poor?", "answer": "Abandoned, Spirituality, Financially, Physically"},
+    {"question": "What is the ethics of Jesus in terms of the poor?", "answer": "Exploitation"},
+    {"question": "List the six classifications of Christ's ethics.", "answer": [
+        "The ethics of Jesus Christ shows more preference to the poor and the oppressed",
+        "The ethics of Jesus is the ethics of love",
+        "The ethics of Jesus demands honesty and authenticity",
+        "The ethics of Jesus teaches faith in the Father",
+        "The ethics of Jesus espouses peace and reconciliation",
+        "The ethics of Jesus demands sacrifice and suffering",
+    ]},
+    {"question": "______ Believed that the moral law was made by Christ himself", "answer": "Christian Ethics"},
+    {"question": "What are the types of poor?", "answer": "disability, underprivileged, abandoned, disadvantage"},
+    {"question": "Intellectual came about _____ and _______", "answer": "Experience, Time"},
+    {"question": "Moral Virtues came about _____ and _______", "answer": "Source of habit, Result"},
+    {"question": "To be what", "answer": "To be authentic is to be true"},
+    {"question": "The moral imperative of Saint Augustine is God because ____", "answer": "God is the highest attribute of love"},
+    {"question": "The highest attribute of God is ____", "answer": "Love"},
+    {"question": "God is the starting point and the terminal point of existence. What propelled God to create?", "answer": "Love"},
+    {"question": "Love is the impetus that propelled God to create. Man is ____", "answer": "The most important; We were created out of love"},
+    {"question": "Saint Augustine strongly believed that man authored or created evil because ____", "answer": "Everything that God made is good"},
+    {"question": "According to Saint Augustine, evil is ____", "answer": [
+        "The negation of good",
+        "Absent of God",
+        "For sin is the negation of God",
+    ]},
+    {"question": "Saint Augustine accepted the fact that even though man was not created perfect, man can still attain or taste perfection through ____", "answer": "Encountering beatific vision"},
+    {"question": "When a person is in the state of sin, they are in the state of ____", "answer": "Imperfect"},
+    {"question": "When a person fully believes that God is with them, they attain ____", "answer": "Perfection"},
+    {"question": "Continuously doing good allows a person to attain ____", "answer": "Perfection"},
+    {"question": "If you want to have a foretaste of perfection, what is the condition?", "answer": "Always be good and always be happy"},
+    {"question": "Beatific vision is ____", "answer": "Perfection"},
+    {"question": "You won't be able to attain perfection unless you ____", "answer": "Have beatific vision"},
+    {"question": "Saint Augustine proposed five cardinal virtues. What are they?", "answer": [
+        "The virtue of prudence",
+        "The virtue of justice",
+        "The virtue of temperance",
+        "The virtue of fortitude",
+        "The virtue of charity or love",
+    ]},
+    {"question": "What is the foundation of all virtues?", "answer": "Charity"},
+    {"question": "Complete perfection is attained when ____", "answer": "We see God"},
+];
 
-
-
-    ];
 
     const quizForm = document.getElementById('quizForm');
 
+    // Shuffle array without altering the original
     function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
+      const copy = array.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [copy[i], copy[j]] = [copy[j], copy[i]];
       }
+      return copy;
     }
 
+    // Render Quiz
     function renderQuiz() {
-      shuffleArray(questions);
+      const shuffledQuestions = shuffleArray(questions);
 
-      questions.forEach((q, index) => {
+      shuffledQuestions.forEach((q, index) => {
         const questionDiv = document.createElement('div');
         questionDiv.className = 'question';
         questionDiv.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
@@ -90,7 +123,14 @@
 
         answers.forEach((_, ansIndex) => {
           questionDiv.innerHTML += `
-            <input type="text" name="question${index}answer${ansIndex}" class="answerInput" aria-label="Answer for question ${index + 1}" autocomplete="off" required>
+            <input 
+              type="text" 
+              name="question${index}answer${ansIndex}" 
+              class="answerInput" 
+              aria-label="Answer for question ${index + 1}" 
+              autocomplete="off" 
+              required
+            >
           `;
         });
 
@@ -99,9 +139,11 @@
       });
     }
 
+    // Submit Quiz
     function submitQuiz() {
       let score = 0;
       const correctAnswers = document.querySelectorAll('.correctAnswer');
+      const totalQuestions = questions.length;
 
       questions.forEach((q, index) => {
         const answers = Array.isArray(q.answer) ? q.answer.map(a => a.toLowerCase()) : [q.answer.toLowerCase()];
@@ -110,26 +152,28 @@
           return input ? input.value.trim().toLowerCase() : "";
         });
 
-        if (userAnswers.every(answer => answer !== "")) {
-          const isCorrect = userAnswers.every((userAnswer, i) => answers[i] === userAnswer);
-          if (isCorrect) {
-            score++;
-            correctAnswers[index].style.display = 'none';
-          } else {
-            correctAnswers[index].style.display = 'block';
-          }
+        // Validate answers
+        const isCorrect = userAnswers.every((userAnswer, i) => answers[i] === userAnswer);
+        if (isCorrect) {
+          score++;
+          correctAnswers[index].style.display = 'none';
+        } else {
+          correctAnswers[index].style.display = 'block';
         }
       });
 
-      document.getElementById('score').innerText = `Your score is ${score} out of ${questions.length}`;
+      // Display final score
+      document.getElementById('score').innerText = `Your score is ${score} out of ${totalQuestions}`;
     }
 
+    // Reset Quiz
     function resetQuiz() {
       quizForm.innerHTML = '';
       document.getElementById('score').innerText = '';
       renderQuiz();
     }
 
+    // Initialize quiz on page load
     renderQuiz();
   </script>
 </body>
